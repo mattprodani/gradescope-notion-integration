@@ -1,0 +1,45 @@
+{
+    "title": [
+        {
+            "text": {
+                "content": "Gradescope Assignments"
+            }
+        }
+    ],
+    "properties":{
+        "Assignment": {
+            "title": {}
+        },
+        "Course": {
+            "rich_text": {}
+        },
+        "Status":{
+            "rich_text": {}
+        },
+        "Open Date": {
+            "date": {}
+        },
+        "Due Date": {
+            "date": {}
+        },
+        "Points Earned": {
+            "type": "number",
+            "number": {
+                "format": "number"
+            }
+        },
+        "Total Points": {
+            "type": "number",
+            "number": {
+                "format": "number"
+            }
+        },
+        "Percent Score": {
+            "name": "Percent Score",
+            "type": "formula",
+            "formula": {
+                "expression": "prop(\"Points Earned\") / prop(\"Total Points\")"
+            }
+        }
+    }
+}
