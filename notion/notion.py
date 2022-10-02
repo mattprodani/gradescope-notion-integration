@@ -44,7 +44,6 @@ class NotionConnector:
             self.load_notion_db(next_cursor)
 
 
-
     def add_assignment(self, assignment: GSAssignment):
         """ Attempts adding assignment to notion, checks if assignment already exists """
         if assignment.aid in self.notion_db:
@@ -58,7 +57,7 @@ class NotionConnector:
 
     def update_assignment(self, assignment: GSAssignment):
         print(assignment.aid)
-        if (res:= compare_to_props(assignment, self.notion_db[assignment.aid]["properties"])) == True:
+        if compare_to_props(assignment, self.notion_db[assignment.aid]["properties"]) == True:
             return 100
         else:
             return self._update_assignment_request(assignment)

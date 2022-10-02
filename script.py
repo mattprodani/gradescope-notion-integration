@@ -27,6 +27,8 @@ def main():
     assignments = gs.get_all_assignments()
     print(f"Successfully retrieved {len(assignments)} assignments from Gradescope")
 
+    
+
     for assignment in assignments:
         if assignment.aid == "0000000": print(f"No AID, skipping {assignment}"); continue
         request = notion.add_assignment(assignment)

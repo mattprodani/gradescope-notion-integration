@@ -43,11 +43,7 @@ def compare_to_props(assignment, props):
         if key == "Assignment" and val != assignment["name"]: return key
         elif key == "Course" and val != assignment["course"]: return key
         elif key == "Status" and val != assignment["status"]: return key
-        elif key == "Open Date" and datetime.fromisoformat(val) != assignment["open_date"]: 
-            print("Open Date mismatch")
-            print(datetime.fromisoformat(val))
-            print(assignment["open_date"])
-            return key
+        elif key == "Open Date" and datetime.fromisoformat(val) != assignment["open_date"]: return key
         elif key == "Due Date" and datetime.fromisoformat(val) != assignment["close_date"]: return key
         elif key == "Points Earned" and val != assignment["points"][0]: return key
         elif key == "Total Points" and val != assignment["points"][1]: return key
@@ -86,7 +82,7 @@ def property_to_dict(prop):
 
 def create_row_obj(assignment):
     return {
-        "Assignment": _title_obj(assignment["name"]),
+        "Assignment": _href_title_obj(assignment["name"], assignment["url"]),
         "Course": _RTO(assignment["course"]),
         "Status": _RTO(assignment["status"]),
         "Open Date": _date_obj(assignment["open_date"]),
@@ -114,6 +110,9 @@ def _num_obj(x):
 
 def _date_obj(x):
     return {"date": {"start": x.isoformat()}}
+
+def _href_title_obj(txt, url):
+    return {"title": [{"text": {"content": txt, "link" : {"url": url}}}]}
 
 def _title_obj(x):
     return {"title":[{"text":{"content":str(x)}}]}

@@ -33,7 +33,9 @@ To change the data parsing, change the row object formatter in notion/utils.py.
 
 ## TODO
 
+- [x] Existing assignment detection
+- [x] URL hyperlinking
+- [ ] Dockerize
 - [ ] Add support for multiple databases
 - [ ] Automatic database creation
 - [ ] Relation support for 'course id'
-- [ ] Existing assignment detection

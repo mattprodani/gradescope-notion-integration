@@ -1,5 +1,5 @@
 import datetime
-
+from time import mktime
 
 class GSAssignment:
     """
@@ -61,8 +61,18 @@ class GSAssignment:
         self.questions = questions
 
         if self.aid == INVALID_ASSIGNMENT_ID:
-            self.aid = str(hash(self.name + self.course + self.status + self.gs_course.cid))
+            self.aid = self._encode_self()
 
+
+    def _encode_self(self):
+        val = int(self.gs_course.cid)
+        val += mktime(self.open_date.utctimetuple())
+        val += mktime(self.close_date.utctimetuple())
+        for c in self.name:
+            val += ord(c)
+        val %= 10000000
+        return str(int(val))
+        
 
     def __getitem__(self, key):
         return self.__dict__[key]
