@@ -42,7 +42,8 @@ class GSAssignment:
         """Create a GSAssignment object"""
         self.name = name
         self.aid = aid
-        self.course = course
+        self.gs_course = course
+        self.course = course.name
         self.status = status
         self.open_date = datetime.datetime.strptime(open_date, "%Y-%m-%d %H:%M:%S %z")
         self.close_date = datetime.datetime.strptime(close_date, "%Y-%m-%d %H:%M:%S %z")

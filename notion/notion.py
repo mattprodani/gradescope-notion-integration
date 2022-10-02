@@ -1,10 +1,22 @@
 import requests
-from notion.utils import create_row_obj, Endpoints, Queries
 import json
 from gradescope.assignment import GSAssignment
+from notion.utils import create_row_obj, Endpoints, Queries
 
-class Notion:
+class NotionConnector:
+    """
+        Notion Connector Class
+        - Handles requests to Notion API for adding/updating assignments
+    """
+
     def __init__(self, API_KEY: str, DB_ID: str):
+        """
+            Notion Connector Class
+            params:
+                API_KEY: str
+                DB_ID: str
+        """
+
         self.Endpoints = Endpoints()
         self.Queries = Queries()
         self.API_KEY = API_KEY
@@ -14,17 +26,17 @@ class Notion:
         self.session.headers.update({"Notion-Version": "2022-02-22"})
         self.session.headers.update({"Content-Type": "application/json"})
 
-    def __str__(self):
-        return f"Notion Session: DB_ID: {self.DB_ID}"
-
     def add_assignment(self, assignment: GSAssignment):
-        try:
-            if self.assignment_exists(assignment):
-                pass
-            else:
-                return self.add_assignment_request(assignment)
-        except Exception as e:
-            return "API Error", 400
+        """ Attempts adding assignment to notion, checks if assignment already exists """
+        return self._add_assignment_request(assignment)
+        # try:
+        #     if self.assignment_exists(assignment):
+        #         pass
+        #     else:
+        #         return self._add_assignment_request(assignment)
+        # except Exception as e:
+        #     print(e)
+        #     return e
         
     def update_schema(self):
         url = self.Endpoints.databases + self.DB_ID
@@ -32,7 +44,7 @@ class Notion:
         return self.session.patch(url, data=body)
 
     def update_assignment(self, assignment: GSAssignment):
-        pass
+        raise NotImplementedError
 
     def assignment_exists(self, assignment: GSAssignment):
         return False
@@ -40,18 +52,22 @@ class Notion:
         # DEBUG PLACEHOLDER
 
     def does_exist_request(self, assignment: GSAssignment):
-        pass
+        """ Not Implemented! Checks if assignment exists in notion 
+            returns -1 if not found, else returns page_id
+        """
+        raise NotImplementedError
 
-    def add_assignment_request(self, assignment: GSAssignment):
-
+    def _add_assignment_request(self, assignment: GSAssignment):
+        """ Sends request to create a new assignment page in notion"""
         url = self.Endpoints.pages
-
         body = json.dumps({"parent": {"database_id": self.DB_ID}, "properties": create_row_obj(assignment)})
-
         return self.session.post(url, data=body)
 
-    def update_assignment_request(self, assignment: GSAssignment):
-        pass
+    def _update_assignment_request(self, assignment: GSAssignment):
+        raise NotImplementedError
 
     def compare_assignment(self, assignment: GSAssignment):
-        pass
+        raise NotImplementedError
+
+    def __str__(self):
+        return f"Notion Session: DB_ID: {self.DB_ID}"

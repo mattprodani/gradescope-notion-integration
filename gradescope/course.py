@@ -3,6 +3,7 @@ import requests
 import re
 from bs4 import BeautifulSoup
 from .assignment import GSAssignment
+from typing import List, Set, Dict, Tuple, Optional
 
 
 class GSCourse:
@@ -32,8 +33,13 @@ class GSCourse:
         self.cid = cid
         self.year = year
         self.session = session
-        self.assignments = {}
-        # self._load_assignments()
+        self.assignments: Dict[str, GSAssignment] = {}
+
+    def get_assignments(self) -> List[GSAssignment]:
+        """Get the assignments available from the course."""
+        if not self.assignments:
+            self._load_assignments()
+        return list(self.assignments.values())
 
     def __str__(self) -> None:
         return f"[#Course# {self.short_name} ({self.cid}) {self.name} ]"

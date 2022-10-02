@@ -1,8 +1,14 @@
 import requests
 from bs4 import BeautifulSoup
-from .account import GSAccount
 
-class GSConnection:
+from gradescope.assignment import GSAssignment
+from .account import GSAccount
+from typing import List
+
+
+
+
+class GSConnector:
     """The main connection class that keeps state about the current connection.
     Attributes
     ----------
@@ -27,6 +33,20 @@ class GSConnection:
         self.session = requests.Session()
         self.account = None
         self._login(email, password)
+
+    def get_all_assignments(self) -> List[GSAssignment]:
+        """Get all assignments for all courses in the account."""
+        if self.account is None:
+            raise ValueError("Not logged in.")
+        self.account.add_courses_in_account()
+        assignments = []
+        for cid, course in self.account.courses.items():
+            try:
+                assignments.extend(course.get_assignments())
+            except Exception as e:
+                print(f"Failed to get assignments for course {cid} ({course.name}): {e}")
+        return assignments
+
 
     def _login(self, email: str, pwd: str) -> bool:
         """Login to Gradescope using passed in credentials.

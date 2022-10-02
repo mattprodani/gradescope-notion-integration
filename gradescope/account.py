@@ -2,6 +2,7 @@
 import requests
 from bs4 import BeautifulSoup
 from .course import GSCourse
+from typing import List, Set, Dict, Tuple, Optional
 
 
 class GSAccount:
@@ -21,7 +22,7 @@ class GSAccount:
 
     def __init__(self, session: requests.Session):
         self.session = session
-        self.courses = {}
+        self.courses: Dict[str, GSCourse] = {}
 
     def add_courses_in_account(self, is_instructor: bool = False) -> None:
         """Finds all courses in the current user account and adds them"""
