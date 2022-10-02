@@ -40,6 +40,8 @@ class GSAssignment:
         questions: list[str] = None,
     ):
         """Create a GSAssignment object"""
+
+        INVALID_ASSIGNMENT_ID = "0000000"
         self.name = name
         self.aid = aid
         self.gs_course = course
@@ -58,6 +60,9 @@ class GSAssignment:
         self.regrades_on = regrades_on
         self.questions = questions
 
+        if self.aid == INVALID_ASSIGNMENT_ID:
+            self.aid = str(hash(self.name + self.course + self.status + self.gs_course.cid))
+
 
     def __getitem__(self, key):
         return self.__dict__[key]
@@ -66,4 +71,4 @@ class GSAssignment:
         return self.__dict__[key] if key in self.__dict__ else default
 
     def __str__(self):
-        return f"[#Assignment# {self.name} ({self.aid}) Course: {self.course.name} \t| Points: {self.points} \t {self.status}]"
+        return f"[#Assignment# {self.name} ({self.aid}) Course: {self.course} \t| Points: {self.points} \t {self.status}]"

@@ -74,6 +74,11 @@ class GSCourse:
                 ).group(1)
             except (IndexError, AttributeError):
                 aid = INVALID_ASSIGNMENT_ID
+            if aid == INVALID_ASSIGNMENT_ID:
+                try:
+                    aid = row[0].find("button").get("data-assignment-id")
+                except (AttributeError, IndexError):
+                    aid = INVALID_ASSIGNMENT_ID
             try:  # Points not guaranteed
                 points = row[1].text.split(" / ")
                 points_earned = float(points[0])
@@ -103,5 +108,5 @@ class GSCourse:
                 regrades_on=regrades_on,
                 url=f"https://www.gradescope.com/courses/{self.cid}/assignments/{aid}/"
                 if aid != INVALID_ASSIGNMENT_ID
-                else "",
+                else f"https://www.gradescope.com/courses/{self.cid}/",
             )

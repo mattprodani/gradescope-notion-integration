@@ -28,9 +28,10 @@ def main():
     print(f"Successfully retrieved {len(assignments)} assignments from Gradescope")
 
     for assignment in assignments:
+        if assignment.aid == "0000000": print(f"No AID, skipping {assignment}"); continue
         request = notion.add_assignment(assignment)
-        print(request)
-        if request.status_code == 200:
+        if request == 100: continue
+        elif request.status_code == 200:
             print(f"Successfully added assignment {assignment.name}")
         else:
             print(f"Failed to add assignment {assignment.name}")
