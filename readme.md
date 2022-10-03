@@ -1,4 +1,4 @@
-# Gradescope - Notion Connector
+# Gradescope - Notion Python Connector
 
 ## What is this?
 
